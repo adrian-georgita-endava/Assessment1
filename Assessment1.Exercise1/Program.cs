@@ -30,6 +30,12 @@ string ToPolishNotation(string expression)
     var polishNotation = new List<string>();
     var number = String.Empty;
 
+    var precedence = new Dictionary<char, int>()
+    {
+        {'+', 1 }, {'-', 1 },
+        {'*', 2 }, {'/', 2 }, {'%', 3 },
+    };
+
     expression = expression.Replace(" ", "");
 
     foreach (char c in expression)
@@ -66,7 +72,8 @@ string ToPolishNotation(string expression)
             }
             else
             {
-                while (operatorsStack.Count > 0 && operatorsStack.Peek() != '(')
+                while (operatorsStack.Count > 0 && operatorsStack.Peek() != '('
+                    && precedence.GetValueOrDefault(operatorsStack.Peek(), 0) >= precedence.GetValueOrDefault(c, 0))
                 {
                     polishNotation.Add(operatorsStack.Pop().ToString());
                 }
@@ -154,7 +161,7 @@ int Evaluate(string expression)
 try
 {
     var polishExpression = ToPolishNotation(expression);
-    Console.WriteLine($"Polish Expression: {polishExpression}");
+    //Console.WriteLine($"Polish Expression: {polishExpression}");
     int result = Evaluate(polishExpression);
 
     Console.WriteLine($"Result: {result}");
