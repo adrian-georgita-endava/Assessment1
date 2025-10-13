@@ -28,6 +28,7 @@ string ToPolishNotation(string expression)
 {
     var operatorsStack = new Stack<char>();
     var polishNotation = new List<string>();
+    var number = String.Empty;
 
     expression = expression.Replace(" ", "");
 
@@ -35,35 +36,49 @@ string ToPolishNotation(string expression)
     {
         if (char.IsDigit(c))
         {
-            polishNotation.Add(c.ToString());
-        }
-        else if (c == '(')
-        {
-            operatorsStack.Push(c);
-        }
-        else if (c == ')')
-        {
-            while (operatorsStack.Count > 0 && operatorsStack.Peek() != '(')
-            {
-                polishNotation.Add(operatorsStack.Pop().ToString());
-            }
-
-            if (operatorsStack.Count == 0)
-            {
-                throw new Exception("Unbalanced parantheses");
-            }
-
-            operatorsStack.Pop();
+            number += c;
         }
         else
         {
-            while (operatorsStack.Count > 0 && operatorsStack.Peek() != '(')
+            if(number.Length > 0)
             {
-                polishNotation.Add(operatorsStack.Pop().ToString());
+                polishNotation.Add(number);
+                number = String.Empty;
             }
 
-            operatorsStack.Push(c);
+            if (c == '(')
+            {
+                operatorsStack.Push(c);
+            }
+            else if (c == ')')
+            {
+                while (operatorsStack.Count > 0 && operatorsStack.Peek() != '(')
+                {
+                    polishNotation.Add(operatorsStack.Pop().ToString());
+                }
+
+                if (operatorsStack.Count == 0)
+                {
+                    throw new Exception("Unbalanced parantheses");
+                }
+
+                operatorsStack.Pop();
+            }
+            else
+            {
+                while (operatorsStack.Count > 0 && operatorsStack.Peek() != '(')
+                {
+                    polishNotation.Add(operatorsStack.Pop().ToString());
+                }
+
+                operatorsStack.Push(c);
+            }
         }
+    }
+
+    if(number.Length > 0)
+    {
+        polishNotation.Add(number);
     }
 
     while(operatorsStack.Count > 0)
@@ -109,7 +124,14 @@ int Evaluate(string expression)
                     numbersStack.Push(number1 * number2);
                     break;
                 case "/":
-                    numbersStack.Push(number1 / number2);
+                    if(number2 != 0)
+                    {
+                        numbersStack.Push(number1 / number2);
+                    }
+                    else
+                    {
+                        throw new Exception($"Cannot divide by 0 ( {number1} / 0 )");
+                    }
                     break;
                 case "%":
                     numbersStack.Push(number1 % number2);
