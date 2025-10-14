@@ -1,33 +1,51 @@
 ﻿Console.WriteLine("Welcome to the Number Guesser");
 
+Console.WriteLine("Think of a number between 0 and 1,000,000");
+
+const int MAX_NUMBER = 1_000_000;
+
 Random random = new Random();
-int number = random.Next(0, 1000);
 
-int guess = -1;
 int guesses = 0;
-Console.WriteLine("Guess the random number");
-Console.Write("Please enter your guess (0 - 1000): ");
-while(guess != number)
+int guess;
+
+string? userResponse = String.Empty;
+
+string[] validResponses = ["too high", "too low", "correct"];
+
+int minNumber = 0;
+int maxNumber = MAX_NUMBER;
+
+do
 {
-    Console.Write("Please enter your guess (0 - 1000): ");
-    while (!int.TryParse(Console.ReadLine(), out guess) || guess < 0 || guess > 1000) {
-        Console.WriteLine("Invalid number");
-        Console.Write("Please enter a valid positive number for your guess: ");
-    }
-
+    guess = random.Next(minNumber, maxNumber);
     guesses++;
-    if(guess > number)
-    {
-        Console.WriteLine("Too high");
-    }
-    else if(guess < number)
-    {
-        Console.WriteLine("Too low");
-    }
-    else
-    {
-        Console.WriteLine("Correct!");
-    }
-}
 
-Console.WriteLine($"You have guessesed the number in: {guesses} guessses");
+    Console.WriteLine($"Is your number: {guess}?");
+    Console.Write("Correct/Too High/Too Low: ");
+    userResponse = Console.ReadLine();
+    
+    while(String.IsNullOrEmpty(userResponse) || !validResponses.Contains(userResponse.ToLower()))
+    {
+        Console.WriteLine("Invalid Response. Please type one of the following values: 'Correct', 'Too High', 'Too Low'");
+        Console.Write("Response: ");
+        userResponse = Console.ReadLine();
+    }
+
+    userResponse = userResponse.ToLower();
+    switch (userResponse)
+    {
+        case "too high":
+            maxNumber = guess - 1;
+            break;
+        case "too low":
+            minNumber = guess + 1;
+            break;
+        default:
+            break;
+    }
+
+
+} while(userResponse !=  "correct");
+
+Console.WriteLine($"The computer has guessed your number in: {guesses} guessses");
