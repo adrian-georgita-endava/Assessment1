@@ -29,10 +29,13 @@ namespace Assessment1.Exercise8
             {
                 for (int i = 2; i < numberOfTerms; i++)
                 {
-                    long f3 = f1 + f2;
-                    Console.Write($"{f3} ");
-                    f1 = f2;
-                    f2 = f3;
+                    checked
+                    {
+                        long f3 = f1 + f2;
+                        Console.Write($"{f3} ");
+                        f1 = f2;
+                        f2 = f3;
+                    }
                 }
             }
         }
@@ -95,7 +98,10 @@ namespace Assessment1.Exercise8
                         Console.Write($"{x} ");
                     }
 
-                    x++;
+                    checked
+                    {
+                        x++;
+                    }
                 }
             }
         }
@@ -107,8 +113,11 @@ namespace Assessment1.Exercise8
             long number = 1;
             for(int i=1; i <= numberOfTerms; ++i)
             {
-                number *= i;
-                Console.Write($"{number} ");
+                checked
+                {
+                    number *= i;
+                    Console.Write($"{number} ");
+                }
             }
         }
 
@@ -118,7 +127,10 @@ namespace Assessment1.Exercise8
 
             for (long i=1; i<=numberOfTerms; ++i)
             {
-                Console.Write($"{i * i} ");
+                checked
+                {
+                    Console.Write($"{i * i} ");
+                }
             }
         }
 
@@ -127,7 +139,10 @@ namespace Assessment1.Exercise8
             Console.WriteLine("Triangular Sequence");
             for(int i = 1; i <= numberOfTerms; i++)
             {
-                Console.Write($"{(i * (i + 1)) / 2} ");
+                checked
+                {
+                    Console.Write($"{(i * (i + 1)) / 2} ");
+                }
             }
         }
     }

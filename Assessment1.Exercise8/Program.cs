@@ -12,13 +12,13 @@ while(!int.TryParse(Console.ReadLine(), out numberOfTerms) || numberOfTerms < 1)
 
 string[] validSequences = ["fibonacci", "geometric", "prime", "factorial", "triangular", "perfect squares"];
 
-Console.WriteLine("Sequence Types: 'Fibonacci', 'Geometric', 'Prime', 'Factorial' 'Trangular', 'Perfect Squares'");
+Console.WriteLine("Sequence Types: 'Fibonacci', 'Geometric', 'Prime', 'Factorial' 'Triangular', 'Perfect Squares'");
 Console.Write("Enter the type of sequence: ");
 string? sequenceName = Console.ReadLine();
 while (String.IsNullOrEmpty(sequenceName) || !validSequences.Contains(sequenceName.ToLower()))
 {
     Console.WriteLine("Invalid Sequence Type");
-    Console.WriteLine("Sequence Types: 'Fibonacci', 'Geometric', 'Prime', 'Factorial' 'Trangular', 'Perfect Squares'");
+    Console.WriteLine("Sequence Types: 'Fibonacci', 'Geometric', 'Prime', 'Factorial' 'Triangular', 'Perfect Squares'");
     Console.Write("Enter the type of sequence: ");
     sequenceName = Console.ReadLine();
 }
@@ -65,8 +65,7 @@ try
             Sequence.PrintPerfectSquares(numberOfTerms);
             break;
         default:
-            Console.WriteLine("Invalid Sequence Type!");
-            break;
+            throw new Exception("Invalid Sequence Type");
     }
 }
 catch (Exception e)
