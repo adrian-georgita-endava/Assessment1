@@ -10,9 +10,19 @@ namespace Assessment1.Exercise1
     {
         private readonly Dictionary<char, int> _operators;
 
+        private Dictionary<string, Func<int, int, int>> _operations;
         public PolishNotationEvaluator(Dictionary<char, int> operators)
         {
             _operators = operators;
+
+            _operations = new Dictionary<string, Func<int, int, int>>()
+            {
+                {"+", MathOperations.Add },
+                {"-", MathOperations.Substract },
+                {"*", MathOperations.Multiply },
+                {"/", MathOperations.Divide },
+                {"%", MathOperations.Modulo },
+            };
         }
 
         public int Evaluate(string expression)
@@ -42,26 +52,12 @@ namespace Assessment1.Exercise1
                     int number2 = numbersStack.Pop();
                     int number1 = numbersStack.Pop();
                     int result;
-                    switch (item)
+                    if(!_operations.ContainsKey(item))
                     {
-                        case "+":
-                            result = MathOperations.Add(number1, number2);
-                            break;
-                        case "-":
-                            result = MathOperations.Substract(number1, number2);
-                            break;
-                        case "*":
-                            result = MathOperations.Multiply(number1, number2);
-                            break;
-                        case "/":
-                            result = MathOperations.Divide(number1, number2);
-                            break;
-                        case "%":
-                            result = MathOperations.Modulo(number1, number2);
-                            break;
-                        default:
-                            throw new Exception($"Invalid Operator: '{item}'");
+                        throw new Exception($"Invalid Operator: '{item}'");
                     }
+
+                    result = _operations[item].Invoke(number1, number2);
 
                     numbersStack.Push(result);
                 }
