@@ -14,7 +14,7 @@ namespace Assessment1.Exercise4
         public Account (string user, string password)
         {
             User = user;
-            Password = Hasher.SHA256Hash(password);
+            Password = password;
         }
     }
 }

@@ -4,10 +4,13 @@ using System.Text;
 Console.WriteLine("Welcome to the Authentificator");
 
 Dictionary<string, string> accounts = new Dictionary<string, string>();
-accounts.Add("user", Hasher.SHA256Hash("pass"));
-accounts.Add("user2", Hasher.SHA256Hash("pass2"));
 
-IAuthentificator authentificator = new DictionaryAuthentificator(accounts);
+IHasher hasher = new SHA256Hasher();
+
+accounts.Add("user", hasher.Hash("pass"));
+accounts.Add("user2", hasher.Hash("pass2"));
+
+IAuthentificator authentificator = new DictionaryAuthentificator(accounts, hasher);
 
 string? username;
 string? password;

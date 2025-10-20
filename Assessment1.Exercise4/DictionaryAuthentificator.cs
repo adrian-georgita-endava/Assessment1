@@ -9,10 +9,12 @@ namespace Assessment1.Exercise4
     public  class DictionaryAuthentificator : IAuthentificator
     {
         private Dictionary<string, string> _accounts;
+        private IHasher _hasher;
 
-        public DictionaryAuthentificator(Dictionary<string, string> accounts)
+        public DictionaryAuthentificator(Dictionary<string, string> accounts, IHasher hasher)
         {
             _accounts = accounts;
+            _hasher = hasher;
         }
 
         public bool Authentificate(string user, string password)
@@ -22,7 +24,7 @@ namespace Assessment1.Exercise4
                 return false;
             }
 
-            string passwordHash = Hasher.SHA256Hash(password);
+            string passwordHash = _hasher.Hash(password);
             if (!_accounts.ContainsKey(user) || _accounts[user] != passwordHash)
             {
                 return false;

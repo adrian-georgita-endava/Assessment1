@@ -4,12 +4,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Security.Cryptography;
+using System.Reflection;
 
 namespace Assessment1.Exercise4
 {
-    public static class Hasher
+    public class SHA256Hasher : IHasher
     {
-        public static string SHA256Hash(string input)
+        public string Hash(string input)
         {
             byte[] bytes = SHA256.HashData(Encoding.UTF8.GetBytes(input));
             StringBuilder builder = new StringBuilder();
