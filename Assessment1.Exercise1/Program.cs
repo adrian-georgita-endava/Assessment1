@@ -8,7 +8,7 @@ Dictionary<char, int> operatorsList = new()
 {
     {'+', 1 }, {'-', 1 },
     {'*', 2 }, {'/', 2 }, {'%', 2 },
-    {'(', 0 }, {')', 1 }
+    {'(', 0 }, {')', 0 }
 };
 
 IExpressionEvaluator evaluator = new PolishNotationEvaluator(operatorsList);
