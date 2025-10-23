@@ -26,12 +26,14 @@ while (String.IsNullOrEmpty(sequenceName) || !validSequences.Contains(sequenceNa
 
 sequenceName = sequenceName.ToLower();
 
+ISequence<long> sequence;
+
 try
 {
     switch (sequenceName)
     {
         case "fibonacci":
-            Sequence.PrintFibonacci(numberOfTerms);
+            sequence = new FibonacciSequence(numberOfTerms);
             break;
         case "geometric":
             int firstTerm, ratio;
@@ -49,27 +51,32 @@ try
                 Console.Write("Enter the ratio of the geometric sequence: ");
             }
 
-            Sequence.PrintGeometric(numberOfTerms, firstTerm, ratio);
-
+            sequence = new GeometricSequence(numberOfTerms, firstTerm, ratio);
             break;
         case "prime":
-            Sequence.PrintPrimes(numberOfTerms);
+            sequence = new PrimesSequence(numberOfTerms);
             break;
         case "factorial":
-            Sequence.PrintFactorial(numberOfTerms);
+            sequence = new FactorialSequence(numberOfTerms);
             break;
         case "triangular":
-            Sequence.PrintTriangular(numberOfTerms);
+            sequence = new TriangularSequence(numberOfTerms);
             break;
         case "perfect squares":
-            Sequence.PrintPerfectSquares(numberOfTerms);
+            sequence = new PerfectSquaresSequence(numberOfTerms);
             break;
         default:
             throw new Exception("Invalid Sequence Type");
     }
+
+    sequence.Show();
 }
 catch (Exception e)
 {
     Console.WriteLine();
     Console.WriteLine(e.Message);
+    if(e.Message.Contains("overflow"))
+    {
+        Console.WriteLine("Please use a smaller number of terms!");
+    }
 }
